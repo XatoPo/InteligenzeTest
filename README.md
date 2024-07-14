@@ -74,7 +74,9 @@ Se siguieron las mejores prácticas recomendadas para el manejo de datos en Post
 
 3. Crea un archivo `.env` en el directorio raíz del proyecto y añade tu cadena de conexión:
    ```plaintext
-   DATABASE_URL=postgres://usuario:contraseña@localhost:5432/nombre_de_la_base_de_datos
+   DATABASE_URL=postgres://usuario:contraseña@localhost:5432/nombre_de_la_base_de_dato
+   La mía fue: 
+   DATABASE_URL=postgres://postgres:developer22@localhost:5432/NASA_Inteligenze
    ```
 
 4. Ejecuta la aplicación:
