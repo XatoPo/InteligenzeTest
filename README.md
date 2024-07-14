@@ -1,3 +1,7 @@
+Voy a realizar las correcciones necesarias y añadir las instrucciones específicas que mencionamos anteriormente para asegurarte de que tu `README.md` sea claro y completo. Aquí tienes el archivo actualizado:
+
+---
+
 # InteligenzeTest
 
 ---
@@ -54,20 +58,44 @@ Se siguieron las mejores prácticas recomendadas para el manejo de datos en Post
 - **Backend**: Implementado en Node.js, consumiendo las APIs de la NASA de forma asíncrona y almacenando los datos en PostgreSQL.
 - **Base de Datos**: PostgreSQL, con tablas diseñadas siguiendo las mejores prácticas.
 - **Despliegue**: Utilización de Ngrok para el despliegue y acceso remoto durante el desarrollo.
-- **Utilice pnpm**
+- **Utilice pnpm** para la gestión de paquetes.
+
+### Configuración del Proyecto
+
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/tu_usuario/tu_repositorio.git
+   ```
+
+2. Instala las dependencias:
+   ```bash
+   pnpm install
+   ```
+
+3. Crea un archivo `.env` en el directorio raíz del proyecto y añade tu cadena de conexión:
+   ```plaintext
+   DATABASE_URL=postgres://usuario:contraseña@localhost:5432/nombre_de_la_base_de_datos
+   ```
+
+4. Ejecuta la aplicación:
+   ```bash
+   pnpm start
+   ```
 
 ---
+
 ### Documentación usada
+
 - [Node.js](https://nodejs.org/es/)
 - [PostgreSQL](https://www.postgresql.org/)
 - [Ngrok](https://ngrok.com/)
 - [NASA APIs](https://api.nasa.gov/)
-    - [APOD](https://api.nasa.gov/planetary/apod)
-    - [Mars Rover Photos](https://api.nasa.gov/mars-photos/api/v1)
-    - [NeoWs](https://api.nasa.gov/planetary/neo/rest/v1/feed)
-    - [NASA Image and Video Library](https://images.nasa.gov/)
-    - [OTRO](https://ssd-api.jpl.nasa.gov/doc/index.php)
+  - [APOD](https://api.nasa.gov/planetary/apod)
+  - [Mars Rover Photos](https://api.nasa.gov/mars-photos/api/v1)
+  - [NeoWs](https://api.nasa.gov/planetary/neo/rest/v1/feed)
+  - [NASA Image and Video Library](https://images.nasa.gov/)
 - [Node-PostGres](https://node-postgres.com/)
+
 ---
 
 ### Autor
