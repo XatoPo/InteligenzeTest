@@ -54,6 +54,7 @@ Se siguieron las mejores prácticas recomendadas para el manejo de datos en Post
 - **Backend**: Implementado en Node.js, consumiendo las APIs de la NASA de forma asíncrona y almacenando los datos en PostgreSQL.
 - **Base de Datos**: PostgreSQL, con tablas diseñadas siguiendo las mejores prácticas.
 - **Despliegue**: Utilización de Ngrok para el despliegue y acceso remoto durante el desarrollo.
+- **Utilice pnpm**
 
 ---
 
