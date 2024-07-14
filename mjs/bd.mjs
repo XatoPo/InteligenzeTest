@@ -1,8 +1,11 @@
 import { Client } from 'pg';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export async function connectDb() {
     const client = new Client({
-        connectionString: 'your_connection_string_here'
+        connectionString: process.env.DATABASE_URL
     });
 
     try {

@@ -57,6 +57,18 @@ Se siguieron las mejores prácticas recomendadas para el manejo de datos en Post
 - **Utilice pnpm**
 
 ---
+### Documentación usada
+- [Node.js](https://nodejs.org/es/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Ngrok](https://ngrok.com/)
+- [NASA APIs](https://api.nasa.gov/)
+    - [APOD](https://api.nasa.gov/planetary/apod)
+    - [Mars Rover Photos](https://api.nasa.gov/mars-photos/api/v1)
+    - [NeoWs](https://api.nasa.gov/planetary/neo/rest/v1/feed)
+    - [NASA Image and Video Library](https://images.nasa.gov/)
+    - [OTRO](https://ssd-api.jpl.nasa.gov/doc/index.php)
+- [Node-PostGres](https://node-postgres.com/)
+---
 
 ### Autor
 
