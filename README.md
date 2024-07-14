@@ -20,4 +20,4 @@ Este proyecto es un test para **Inteligenze**, donde se ha elegido trabajar con 
 
 ### Autor
 
-**Flavio Sebastian Villanueva Medina (alias XatoPo)**
+**Flavio Sebastian Villanueva Medina (XatoPo)**
