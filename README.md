@@ -64,7 +64,7 @@ Se siguieron las mejores prácticas recomendadas para el manejo de datos en Post
 
 1. Clona el repositorio:
    ```bash
-   git clone https://github.com/tu_usuario/tu_repositorio.git
+   git clone https://github.com/XatoPo/InteligenzeTest
    ```
 
 2. Instala las dependencias:
