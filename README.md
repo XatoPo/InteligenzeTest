@@ -104,3 +104,7 @@ Se siguieron las mejores prácticas recomendadas para el manejo de datos en Post
 ### Autor
 
 **Flavio Sebastian Villanueva Medina (XatoPo)**
+
+---
+
+### VERSION 1.0.0
