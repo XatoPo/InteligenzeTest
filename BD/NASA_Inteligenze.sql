@@ -13,31 +13,31 @@ CREATE SCHEMA IF NOT EXISTS NASA;
 -- Tabla de Asteroides
 CREATE TABLE NASA.ASTEROIDS (
     ID SERIAL PRIMARY KEY, -- Identificador único para cada asteroide
-    NAME VARCHAR(255) NOT NULL, -- Nombre del asteroide
-    MAGNITUDE REAL NOT NULL, -- Magnitud del asteroide
-    IS_POTENTIALLY_HAZARDOUS BOOLEAN NOT NULL, -- Indica si el asteroide es potencialmente peligroso
-    CLOSE_APPROACH_DATE DATE NOT NULL, -- Fecha de aproximación cercana
-    DISTANCE_KM REAL NOT NULL, -- Distancia en kilómetros
+    NAME VARCHAR(255) NULL, -- Nombre del asteroide
+    MAGNITUDE REAL NULL, -- Magnitud del asteroide
+    IS_POTENTIALLY_HAZARDOUS BOOLEAN NULL, -- Indica si el asteroide es potencialmente peligroso
+    CLOSE_APPROACH_DATE DATE NULL, -- Fecha de aproximación cercana
+    DISTANCE_KM REAL NULL, -- Distancia en kilómetros
     NASA_JPL_URL TEXT -- URL con más información del asteroide en el sitio de la NASA
 );
 
 -- Tabla de Fotos del Rover en Marte
 CREATE TABLE NASA.MARSROVERPHOTOS ( ID SERIAL PRIMARY KEY, -- Identificador único para cada foto
-SOL INT NOT NULL, -- Día marciano (sol)
-CAMERA_NAME VARCHAR(255) NOT NULL, -- Nombre de la cámara que tomó la foto
-IMG_SRC TEXT NOT NULL, -- URL de la imagen
-EARTH_DATE DATE NOT NULL, -- Fecha en la Tierra
-ROVER_NAME VARCHAR(255) NOT NULL, -- Nombre del rover que tomó la foto
+SOL INT NULL, -- Día marciano (sol)
+CAMERA_NAME VARCHAR(255) NULL, -- Nombre de la cámara que tomó la foto
+IMG_SRC TEXT NULL, -- URL de la imagen
+EARTH_DATE DATE NULL, -- Fecha en la Tierra
+ROVER_NAME VARCHAR(255) NULL, -- Nombre del rover que tomó la foto
 ASSOCIATED_ASTEROID_ID INT, -- Referencia a un asteroide relacionado
 FOREIGN KEY (ASSOCIATED_ASTEROID_ID) REFERENCES NASA.ASTEROIDS(ID) -- Clave foránea
 );
 
 -- Tabla de Exoplanetas
 CREATE TABLE NASA.EXOPLANETS ( ID SERIAL PRIMARY KEY, -- Identificador único para cada exoplaneta
-NAME VARCHAR(255) NOT NULL, -- Nombre del exoplaneta
-HOST_STAR VARCHAR(255) NOT NULL, -- Estrella anfitriona del exoplaneta
-DISCOVERY_METHOD VARCHAR(255) NOT NULL, -- Método de descubrimiento
-DISCOVERY_YEAR INT NOT NULL, -- Año de descubrimiento
+NAME VARCHAR(255) NULL, -- Nombre del exoplaneta
+HOST_STAR VARCHAR(255) NULL, -- Estrella anfitriona del exoplaneta
+DISCOVERY_METHOD VARCHAR(255) NULL, -- Método de descubrimiento
+DISCOVERY_YEAR INT NULL, -- Año de descubrimiento
 ORBITAL_PERIOD REAL, -- Período orbital en días
 RADIUS_EARTH REAL, -- Radio del exoplaneta en comparación con la Tierra
 DISTANCE_PARSECS REAL, -- Distancia en parsecs
@@ -47,10 +47,10 @@ FOREIGN KEY (RELATED_ASTEROID_ID) REFERENCES NASA.ASTEROIDS(ID) -- Clave foráne
 
 -- Tabla de Astronomía Diaria
 CREATE TABLE NASA.DAILYASTRONOMY ( ID SERIAL PRIMARY KEY, -- Identificador único para cada entrada diaria
-DATE DATE NOT NULL, -- Fecha de la entrada
-TITLE VARCHAR(255) NOT NULL, -- Título de la entrada
-EXPLANATION TEXT NOT NULL, -- Explicación de la entrada
-URL TEXT NOT NULL -- URL de la imagen o vídeo
+DATE DATE NULL, -- Fecha de la entrada
+TITLE VARCHAR(255) NULL, -- Título de la entrada
+EXPLANATION TEXT NULL, -- Explicación de la entrada
+URL TEXT NULL -- URL de la imagen o vídeo
 );
 
 -------------------------------------------------------------------------------------------------------------------------------------------------

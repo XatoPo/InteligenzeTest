@@ -1,10 +1,4 @@
-Voy a realizar las correcciones necesarias y añadir las instrucciones específicas que mencionamos anteriormente para asegurarte de que tu `README.md` sea claro y completo. Aquí tienes el archivo actualizado:
-
----
-
 # InteligenzeTest
-
----
 
 ## Descripción del Proyecto
 
@@ -44,7 +38,13 @@ Se diseñaron tablas para almacenar los datos obtenidos de las APIs. Las tablas 
 
 ### Consumo Asíncrono de APIs
 
-Se implementó el consumo asíncrono de las APIs utilizando Node.js para asegurar eficiencia y rapidez en la obtención de datos.
+Se implementó el consumo asíncrono de las APIs utilizando Node.js para asegurar eficiencia y rapidez en la obtención de datos. 
+
+Nota: Para evitar problemas con módulos que usan CommonJS como `pg`, se utiliza el siguiente patrón de importación para ES modules:
+```js
+import pkg from 'pg';
+const { Client } = pkg;
+```
 
 ### Buenas Prácticas en PostgreSQL
 
@@ -89,6 +89,8 @@ Se siguieron las mejores prácticas recomendadas para el manejo de datos en Post
 ### Documentación usada
 
 - [Node.js](https://nodejs.org/es/)
+    - [Node-PostGres](https://node-postgres.co/)
+    - [ECMAScript-modules](https://nodejs.org/api/esm.html#modules-ecmascript-modules)
 - [PostgreSQL](https://www.postgresql.org/)
 - [Ngrok](https://ngrok.com/)
 - [NASA APIs](https://api.nasa.gov/)
@@ -96,7 +98,6 @@ Se siguieron las mejores prácticas recomendadas para el manejo de datos en Post
   - [Mars Rover Photos](https://api.nasa.gov/mars-photos/api/v1)
   - [NeoWs](https://api.nasa.gov/planetary/neo/rest/v1/feed)
   - [NASA Image and Video Library](https://images.nasa.gov/)
-- [Node-PostGres](https://node-postgres.com/)
 
 ---
 
