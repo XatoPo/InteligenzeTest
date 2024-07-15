@@ -1,28 +1,37 @@
-import axios from 'axios';
+import fetch from 'node-fetch'; // Importo la librería 'node-fetch' para realizar solicitudes HTTP
+import dotenv from 'dotenv'; // Importo 'dotenv' para manejar variables de entorno
+import dayjs from 'dayjs'; // Importo 'dayjs' para manejar fechas
 
-const nasaApiKey = 'hqcnDdI07C4CsYXDyaEETq6wDdsG990SELM2VdfI';
+const API_URL = 'https://api.nasa.gov';
 
-export async function fetchData() {
-    try {
-        // Consumo de datos de asteroides
-        const asteroidsResponse = await axios.get(`https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=${nasaApiKey}`);
-        const asteroidsData = asteroidsResponse.data.near_earth_objects;
+// Cargo las variables de entorno desde el archivo .env
+dotenv.config();
 
-        // Consumo de datos de exoplanetas
-        const exoplanetsResponse = await axios.get(`https://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI?table=exoplanets&format=json`);
-        const exoplanetsData = exoplanetsResponse.data;
+// Función para obtener datos de asteroides
+export async function fetchAsteroids() {
+    const response = await fetch(`${API_URL}/neo/rest/v1/neo/browse?api_key=${process.env.NASA_API_KEY}`);
+    return (await response.json()).near_earth_objects;
+}
 
-        // Consumo de imagen astronómica del día
-        const apodResponse = await axios.get(`https://api.nasa.gov/planetary/apod?api_key=${nasaApiKey}`);
-        const apodData = apodResponse.data;
+// Función para obtener fotos del rover en Marte
+export async function fetchMarsRoverPhotos(sol) {
+    const response = await fetch(`${API_URL}/mars-photos/api/v1/rovers/curiosity/photos?sol=${sol}&api_key=${process.env.NASA_API_KEY}`);
+    return (await response.json()).photos;
+}
 
-        // Consumo de fotos de rovers de Marte
-        const marsPhotosResponse = await axios.get(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=${nasaApiKey}`);
-        const marsPhotosData = marsPhotosResponse.data.photos;
+// Función para obtener datos de astronomía diaria de un rango de fechas
+export async function fetchDailyAstronomy() {
+    const now = dayjs();
+    const threeMonthsAgo = now.subtract(3, 'month');
+    const startDate = threeMonthsAgo.format('YYYY-MM-DD');
+    const endDate = now.format('YYYY-MM-DD');
+    const response = await fetch(`${API_URL}/planetary/apod?start_date=${startDate}&end_date=${endDate}&api_key=${process.env.NASA_API_KEY}`);
+    return await response.json();
+}
 
-        return { asteroidsData, exoplanetsData, marsPhotosData, apodData };
-    } catch (error) {
-        console.error('Error al obtener los datos de la NASA API:', error);
-        throw error;
-    }
+// Función para obtener datos de imágenes EPIC por fecha específica
+export async function fetchEpicImagesByDate(date) {
+    const response = await fetch(`${API_URL}/EPIC/api/natural/date/${date}?api_key=${process.env.NASA_API_KEY}`);
+    const data = await response.json();
+    return data;
 }

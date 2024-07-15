@@ -12,48 +12,49 @@ CREATE SCHEMA IF NOT EXISTS NASA;
 
 -- Tabla de Asteroides
 CREATE TABLE NASA.ASTEROIDS (
-    ID SERIAL PRIMARY KEY, -- Identificador único para cada asteroide
-    NAME VARCHAR(255) NULL, -- Nombre del asteroide
-    MAGNITUDE REAL NULL, -- Magnitud del asteroide
-    IS_POTENTIALLY_HAZARDOUS BOOLEAN NULL, -- Indica si el asteroide es potencialmente peligroso
-    CLOSE_APPROACH_DATE DATE NULL, -- Fecha de aproximación cercana
-    DISTANCE_KM REAL NULL, -- Distancia en kilómetros
-    NASA_JPL_URL TEXT -- URL con más información del asteroide en el sitio de la NASA
+    ID SERIAL PRIMARY KEY,
+    NAME VARCHAR(255),
+    MAGNITUDE REAL,
+    IS_POTENTIALLY_HAZARDOUS BOOLEAN,
+    CLOSE_APPROACH_DATE DATE,
+    DISTANCE_KM REAL,
+    NASA_JPL_URL TEXT
 );
 
 -- Tabla de Fotos del Rover en Marte
-CREATE TABLE NASA.MARSROVERPHOTOS ( ID SERIAL PRIMARY KEY, -- Identificador único para cada foto
-SOL INT NULL, -- Día marciano (sol)
-CAMERA_NAME VARCHAR(255) NULL, -- Nombre de la cámara que tomó la foto
-IMG_SRC TEXT NULL, -- URL de la imagen
-EARTH_DATE DATE NULL, -- Fecha en la Tierra
-ROVER_NAME VARCHAR(255) NULL, -- Nombre del rover que tomó la foto
-ASSOCIATED_ASTEROID_ID INT, -- Referencia a un asteroide relacionado
-FOREIGN KEY (ASSOCIATED_ASTEROID_ID) REFERENCES NASA.ASTEROIDS(ID) -- Clave foránea
-);
-
--- Tabla de Exoplanetas
-CREATE TABLE NASA.EXOPLANETS ( ID SERIAL PRIMARY KEY, -- Identificador único para cada exoplaneta
-NAME VARCHAR(255) NULL, -- Nombre del exoplaneta
-HOST_STAR VARCHAR(255) NULL, -- Estrella anfitriona del exoplaneta
-DISCOVERY_METHOD VARCHAR(255) NULL, -- Método de descubrimiento
-DISCOVERY_YEAR INT NULL, -- Año de descubrimiento
-ORBITAL_PERIOD REAL, -- Período orbital en días
-RADIUS_EARTH REAL, -- Radio del exoplaneta en comparación con la Tierra
-DISTANCE_PARSECS REAL, -- Distancia en parsecs
-RELATED_ASTEROID_ID INT, -- Referencia a un asteroide relacionado
-FOREIGN KEY (RELATED_ASTEROID_ID) REFERENCES NASA.ASTEROIDS(ID) -- Clave foránea
+CREATE TABLE NASA.MARSROVERPHOTOS (
+    ID SERIAL PRIMARY KEY,
+    SOL INT,
+    CAMERA_NAME VARCHAR(255),
+    IMG_SRC TEXT,
+    EARTH_DATE DATE,
+    ROVER_NAME VARCHAR(255),
+    ROVER_STATUS VARCHAR(50)
 );
 
 -- Tabla de Astronomía Diaria
-CREATE TABLE NASA.DAILYASTRONOMY ( ID SERIAL PRIMARY KEY, -- Identificador único para cada entrada diaria
-DATE DATE NULL, -- Fecha de la entrada
-TITLE VARCHAR(255) NULL, -- Título de la entrada
-EXPLANATION TEXT NULL, -- Explicación de la entrada
-URL TEXT NULL -- URL de la imagen o vídeo
+CREATE TABLE NASA.DAILYASTRONOMY (
+    ID SERIAL PRIMARY KEY,
+    DATE DATE,
+    TITLE VARCHAR(255),
+    EXPLANATION TEXT,
+    URL TEXT
 );
 
--------------------------------------------------------------------------------------------------------------------------------------------------
+-- Tabla de imagenes EPIC
+CREATE TABLE NASA.EPIC_IMAGES (
+    ID SERIAL PRIMARY KEY,
+    IMAGE_DATE DATE NOT NULL,
+    IMAGE_NAME VARCHAR(255) NOT NULL,
+    CAPTION TEXT,
+    LATITUDE REAL,
+    LONGITUDE REAL,
+    DSV_DISTANCE REAL,
+    SUN_DISTANCE REAL
+);
+
+
+-- Funciones para insertar y seleccionar datos
 
 -- Función para insertar datos en la tabla de Asteroides
 CREATE OR REPLACE FUNCTION NASA.INSERT_ASTEROID(
@@ -82,19 +83,6 @@ CREATE OR REPLACE FUNCTION NASA.INSERT_ASTEROID(
 END;
 $$     LANGUAGE PLPGSQL;
 
--- Función para seleccionar todos los datos de la tabla de Asteroides
-CREATE OR REPLACE
-
-FUNCTION NASA.SELECT_ALL_ASTEROIDS(
-) RETURNS TABLE( ID INT, NAME VARCHAR, MAGNITUDE REAL, IS_POTENTIALLY_HAZARDOUS BOOLEAN, CLOSE_APPROACH_DATE DATE, DISTANCE_KM REAL, NASA_JPL_URL TEXT) AS
-    $$     BEGIN RETURN QUERY
-    SELECT
-        *
-    FROM
-        NASA.ASTEROIDS;
-END;
-$$     LANGUAGE PLPGSQL;
-
 -- Función para insertar datos en la tabla de Fotos del Rover en Marte
 CREATE OR REPLACE
 
@@ -104,7 +92,7 @@ FUNCTION NASA.INSERT_MARS_ROVER_PHOTO(
     _IMG_SRC TEXT,
     _EARTH_DATE DATE,
     _ROVER_NAME VARCHAR,
-    _ASSOCIATED_ASTEROID_ID INT
+    _ROVER_STATUS VARCHAR
 ) RETURNS VOID AS
     $$     BEGIN INSERT INTO NASA.MARSROVERPHOTOS (
         SOL,
@@ -112,78 +100,49 @@ FUNCTION NASA.INSERT_MARS_ROVER_PHOTO(
         IMG_SRC,
         EARTH_DATE,
         ROVER_NAME,
-        ASSOCIATED_ASTEROID_ID
+        ROVER_STATUS
     ) VALUES (
         _SOL,
         _CAMERA_NAME,
         _IMG_SRC,
         _EARTH_DATE,
         _ROVER_NAME,
-        _ASSOCIATED_ASTEROID_ID
+        _ROVER_STATUS
     );
 END;
 $$     LANGUAGE PLPGSQL;
 
--- Función para seleccionar todas las fotos del rover en Marte
-CREATE OR REPLACE
-
-FUNCTION NASA.SELECT_ALL_MARS_ROVER_PHOTOS(
-) RETURNS TABLE( ID INT, SOL INT, CAMERA_NAME VARCHAR, IMG_SRC TEXT, EARTH_DATE DATE, ROVER_NAME VARCHAR, ASSOCIATED_ASTEROID_ID INT) AS
-    $$     BEGIN RETURN QUERY
-    SELECT
-        *
-    FROM
-        NASA.MARSROVERPHOTOS;
-END;
-$$     LANGUAGE PLPGSQL;
-
--- Función para insertar datos en la tabla de Exoplanetas
-CREATE OR REPLACE
-
-FUNCTION NASA.INSERT_EXOPLANET(
-    _NAME VARCHAR,
-    _HOST_STAR VARCHAR,
-    _DISCOVERY_METHOD VARCHAR,
-    _DISCOVERY_YEAR INT,
-    _ORBITAL_PERIOD REAL,
-    _RADIUS_EARTH REAL,
-    _DISTANCE_PARSECS REAL,
-    _RELATED_ASTEROID_ID INT
+-- Función para insertar datos en la tabla de EPIC
+CREATE OR REPLACE FUNCTION NASA.INSERT_EPIC_IMAGE(
+    _IMAGE_DATE DATE,
+    _IMAGE_NAME VARCHAR,
+    _CAPTION TEXT,
+    _LATITUDE REAL,
+    _LONGITUDE REAL,
+    _DSV_DISTANCE REAL,
+    _SUN_DISTANCE REAL
 ) RETURNS VOID AS
-    $$     BEGIN INSERT INTO NASA.EXOPLANETS (
-        NAME,
-        HOST_STAR,
-        DISCOVERY_METHOD,
-        DISCOVERY_YEAR,
-        ORBITAL_PERIOD,
-        RADIUS_EARTH,
-        DISTANCE_PARSECS,
-        RELATED_ASTEROID_ID
+$$
+BEGIN
+    INSERT INTO NASA.EPIC_IMAGES (
+        IMAGE_DATE,
+        IMAGE_NAME,
+        CAPTION,
+        LATITUDE,
+        LONGITUDE,
+        DSV_DISTANCE,
+        SUN_DISTANCE
     ) VALUES (
-        _NAME,
-        _HOST_STAR,
-        _DISCOVERY_METHOD,
-        _DISCOVERY_YEAR,
-        _ORBITAL_PERIOD,
-        _RADIUS_EARTH,
-        _DISTANCE_PARSECS,
-        _RELATED_ASTEROID_ID
+        _IMAGE_DATE,
+        _IMAGE_NAME,
+        _CAPTION,
+        _LATITUDE,
+        _LONGITUDE,
+        _DSV_DISTANCE,
+        _SUN_DISTANCE
     );
 END;
-$$     LANGUAGE PLPGSQL;
-
--- Función para seleccionar todos los datos de la tabla de Exoplanetas
-CREATE OR REPLACE
-
-FUNCTION NASA.SELECT_ALL_EXOPLANETS(
-) RETURNS TABLE( ID INT, NAME VARCHAR, HOST_STAR VARCHAR, DISCOVERY_METHOD VARCHAR, DISCOVERY_YEAR INT, ORBITAL_PERIOD REAL, RADIUS_EARTH REAL, DISTANCE_PARSECS REAL, RELATED_ASTEROID_ID INT) AS
-    $$     BEGIN RETURN QUERY
-    SELECT
-        *
-    FROM
-        NASA.EXOPLANETS;
-END;
-$$     LANGUAGE PLPGSQL;
+$$ LANGUAGE PLPGSQL;
 
 -- Función para insertar datos en la tabla de Astronomía Diaria
 CREATE OR REPLACE
@@ -208,21 +167,6 @@ FUNCTION NASA.INSERT_DAILY_ASTRONOMY(
 END;
 $$     LANGUAGE PLPGSQL;
 
--- Función para seleccionar todas las entradas diarias de astronomía
-CREATE OR REPLACE
-
-FUNCTION NASA.SELECT_ALL_DAILY_ASTRONOMY(
-) RETURNS TABLE( ID INT, DATE DATE, TITLE VARCHAR, EXPLANATION TEXT, URL TEXT) AS
-    $$     BEGIN RETURN QUERY
-    SELECT
-        *
-    FROM
-        NASA.DAILYASTRONOMY;
-END;
-$$     LANGUAGE PLPGSQL;
-
--------------------------------------------------------------------------------------------------------------------------------------------------
-
 -- Consultas a manera de reportes
 -- Reporte de asteroides potencialmente peligrosos
 CREATE OR REPLACE VIEW NASA.HAZARDOUS_ASTEROIDS AS
@@ -238,8 +182,8 @@ FROM
 WHERE
     IS_POTENTIALLY_HAZARDOUS = TRUE;
 
--- Reporte de fotos del rover en Marte relacionadas con asteroides
-CREATE OR REPLACE VIEW NASA.MARS_ROVER_PHOTOS_WITH_ASTEROIDS AS
+-- Reporte de fotos del rover en Marte con el estado del rover y datos meteorológicos
+CREATE OR REPLACE VIEW NASA.MARS_ROVER_PHOTOS_WITH_STATUS AS
 SELECT
     M.ID,
     M.SOL,
@@ -247,20 +191,17 @@ SELECT
     M.IMG_SRC,
     M.EARTH_DATE,
     M.ROVER_NAME,
-    A.NAME AS ASTEROID_NAME
+    M.ROVER_STATUS
 FROM
-    NASA.MARSROVERPHOTOS M
-    JOIN NASA.ASTEROIDS A
-    ON M.ASSOCIATED_ASTEROID_ID = A.ID;
+    NASA.MARSROVERPHOTOS M;
 
--- Reporte de exoplanetas descubiertos por año
-CREATE OR REPLACE VIEW NASA.EXOPLANETS_DISCOVERED_BY_YEAR AS
+-- Reporte de entradas diarias de astronomía
+CREATE OR REPLACE VIEW NASA.DAILY_ASTRONOMY_ENTRIES AS
 SELECT
-    DISCOVERY_YEAR,
-    COUNT(*) AS NUMBER_OF_EXOPLANETS
+    ID,
+    DATE,
+    TITLE,
+    EXPLANATION,
+    URL
 FROM
-    NASA.EXOPLANETS
-GROUP BY
-    DISCOVERY_YEAR
-ORDER BY
-    DISCOVERY_YEAR;
+    NASA.DAILYASTRONOMY;

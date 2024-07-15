@@ -1,22 +1,24 @@
-import { fetchData } from './api.mjs';
 import { connectDb } from './db.mjs';
-import { insertAsteroids, insertExoplanets, insertMarsRoverPhotos, insertDailyAstronomy } from './insertData.mjs';
+import dotenv from 'dotenv';
+import { fetchData } from './fetchData.mjs';
+import { insertAsteroids, insertMarsRoverPhotos, insertDailyAstronomy, insertEpicImages } from './insertData.mjs';
 
 async function main() {
     try {
-        // Conectar a la base de datos
+        dotenv.config();
         const client = await connectDb();
 
-        // Obtener los datos de las APIs
-        const { asteroidsData, exoplanetsData, marsPhotosData, apodData } = await fetchData();
+        const {
+            filteredAsteroids,
+            filteredMarsPhotos,
+            dailyAstronomyData
+        } = await fetchData();
 
-        // Insertar los datos en la base de datos
-        await insertAsteroids(client, asteroidsData);
-        await insertExoplanets(client, exoplanetsData);
-        await insertMarsRoverPhotos(client, marsPhotosData);
-        await insertDailyAstronomy(client, apodData);
+        await insertEpicImages(client);
+        await insertAsteroids(client, filteredAsteroids);
+        await insertMarsRoverPhotos(client, filteredMarsPhotos);
+        await insertDailyAstronomy(client, dailyAstronomyData);
 
-        // Cerrar la conexión de la base de datos
         await client.end();
         console.log('Datos insertados correctamente en la base de datos.');
     } catch (error) {
