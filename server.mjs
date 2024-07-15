@@ -3,7 +3,6 @@ import dotenv from 'dotenv';
 import { connectDb } from './db.mjs';
 import { fetchData } from './fetchData.mjs';
 import { insertAsteroids, insertMarsRoverPhotos, insertDailyAstronomy, insertEpicImages } from './insertData.mjs';
-import { connectDb } from './db.mjs';
 
 dotenv.config();
 
@@ -19,6 +18,7 @@ function handleDbError(res, error, message) {
     res.status(500).json({ error: message });
 }
 
+/*-----------------------------------------------------------CONSUMO DIRECTO DESDE API----------------------------------------*/
 // Endpoint para obtener imágenes del día
 app.get('/apod', async (req, res) => {
     try {
@@ -59,6 +59,7 @@ app.get('/epic-images', async (req, res) => {
     }
 });
 
+/*-----------------------------------------------------------INSERCIÓN DE DATOS A LA BD----------------------------------------*/
 // Endpoint para insertar datos en la base de datos
 app.post('/insert-data', async (req, res) => {
     try {
@@ -78,60 +79,60 @@ app.post('/insert-data', async (req, res) => {
     }
 });
 
-// Endpoint para consultar datos almacenados en la base de datos
-// Ruta para obtener imágenes EPIC
-app.get('/db/epic', async (req, res) => {
+/*-----------------------------------------------------------CONSUMO DIRECTO DESDE BD----------------------------------------*/
+// Ruta para obtener asteroides potencialmente peligrosos
+app.get('/db/hazardous-asteroids', async (req, res) => {
     const client = await connectDb();
     try {
-        const query = 'SELECT * FROM epic_images'; // Reemplaza con la consulta que necesites
+        const query = 'SELECT * FROM NASA.HAZARDOUS_ASTEROIDS'; // Consulta para asteroides peligrosos
+        const result = await client.query(query);
+        res.json(result.rows);
+    } catch (error) {
+        handleDbError(res, error, 'Error al consultar asteroides peligrosos');
+    } finally {
+        client.end();
+    }
+});
+
+// Ruta para obtener fotos de rovers en Marte con estado del rover
+app.get('/db/mars-rover-photos', async (req, res) => {
+    const client = await connectDb();
+    try {
+        const query = 'SELECT * FROM NASA.MARS_ROVER_PHOTOS_WITH_STATUS'; // Consulta para fotos del rover
+        const result = await client.query(query);
+        res.json(result.rows);
+    } catch (error) {
+        handleDbError(res, error, 'Error al consultar fotos del rover en Marte');
+    } finally {
+        client.end();
+    }
+});
+
+// Ruta para obtener entradas diarias de astronomía
+app.get('/db/daily-astronomy', async (req, res) => {
+    const client = await connectDb();
+    try {
+        const query = 'SELECT * FROM NASA.DAILY_ASTRONOMY_ENTRIES'; // Consulta para astronomía diaria
+        const result = await client.query(query);
+        res.json(result.rows);
+    } catch (error) {
+        handleDbError(res, error, 'Error al consultar entradas de astronomía diaria');
+    } finally {
+        client.end();
+    }
+});
+
+// Ruta para obtener imágenes EPIC con datos asociados
+app.get('/db/epic-images', async (req, res) => {
+    const client = await connectDb();
+    try {
+        const query = 'SELECT * FROM NASA.EPIC_IMAGES_REPORT'; // Consulta para imágenes EPIC
         const result = await client.query(query);
         res.json(result.rows);
     } catch (error) {
         handleDbError(res, error, 'Error al consultar imágenes EPIC');
     } finally {
-        client.end(); // Cierra la conexión al final
-    }
-});
-
-// Ruta para obtener datos de asteroides
-app.get('/db/asteroids', async (req, res) => {
-    const client = await connectDb();
-    try {
-        const query = 'SELECT * FROM asteroids'; // Reemplaza con la consulta que necesites
-        const result = await client.query(query);
-        res.json(result.rows);
-    } catch (error) {
-        handleDbError(res, error, 'Error al consultar asteroides');
-    } finally {
-        client.end(); // Cierra la conexión al final
-    }
-});
-
-// Ruta para obtener fotos de rovers
-app.get('/db/mars-photos', async (req, res) => {
-    const client = await connectDb();
-    try {
-        const query = 'SELECT * FROM mars_photos'; // Reemplaza con la consulta que necesites
-        const result = await client.query(query);
-        res.json(result.rows);
-    } catch (error) {
-        handleDbError(res, error, 'Error al consultar fotos de rovers');
-    } finally {
-        client.end(); // Cierra la conexión al final
-    }
-});
-
-// Ruta para obtener datos de astronomía diaria
-app.get('/db/apod', async (req, res) => {
-    const client = await connectDb();
-    try {
-        const query = 'SELECT * FROM daily_astronomy'; // Reemplaza con la consulta que necesites
-        const result = await client.query(query);
-        res.json(result.rows);
-    } catch (error) {
-        handleDbError(res, error, 'Error al consultar datos de astronomía diaria');
-    } finally {
-        client.end(); // Cierra la conexión al final
+        client.end();
     }
 });
 

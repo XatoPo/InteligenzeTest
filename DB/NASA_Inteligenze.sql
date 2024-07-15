@@ -179,6 +179,7 @@ $$ LANGUAGE PLPGSQL;
 
 -- Consultas a manera de reportes
 -- Reporte de asteroides potencialmente peligrosos
+-- Reporte de asteroides potencialmente peligrosos
 CREATE OR REPLACE VIEW NASA.HAZARDOUS_ASTEROIDS AS
 SELECT
     ID,
@@ -194,17 +195,18 @@ WHERE
 -- Crea una vista llamada HAZARDOUS_ASTEROIDS que selecciona y muestra datos de la tabla ASTEROIDS donde los asteroides son potencialmente peligrosos.
 
 -- Reporte de fotos del rover en Marte con el estado del rover y datos meteorológicos
+-- Reporte de fotos del rover en Marte con el estado del rover
 CREATE OR REPLACE VIEW NASA.MARS_ROVER_PHOTOS_WITH_STATUS AS
 SELECT
-    M.ID,
-    M.SOL,
-    M.CAMERA_NAME,
-    M.IMG_SRC,
-    M.EARTH_DATE,
-    M.ROVER_NAME,
-    M.ROVER_STATUS
+    ID,
+    SOL,
+    CAMERA_NAME,
+    IMG_SRC,
+    EARTH_DATE,
+    ROVER_NAME,
+    ROVER_STATUS
 FROM
-    NASA.MARSROVERPHOTOS M;
+    NASA.MARSROVERPHOTOS;
 -- Crea una vista llamada MARS_ROVER_PHOTOS_WITH_STATUS que selecciona y muestra datos de la tabla MARSROVERPHOTOS.
 
 -- Reporte de entradas diarias de astronomía
@@ -218,3 +220,18 @@ SELECT
 FROM
     NASA.DAILYASTRONOMY;
 -- Crea una vista llamada DAILY_ASTRONOMY_ENTRIES que selecciona y muestra datos de la tabla DAILYASTRONOMY.
+
+-- Reporte de imágenes EPIC con datos asociados
+CREATE OR REPLACE VIEW NASA.EPIC_IMAGES_REPORT AS
+SELECT
+    ID,
+    IMAGE_DATE,
+    IMAGE_NAME,
+    CAPTION,
+    LATITUDE,
+    LONGITUDE,
+    DSV_DISTANCE,
+    SUN_DISTANCE
+FROM
+    NASA.EPIC_IMAGES;
+-- Crea una vista llamada EPIC_IMAGES_REPORT que selecciona y muestra datos de la tabla
