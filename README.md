@@ -299,5 +299,5 @@ Se siguieron las mejores prácticas recomendadas para el manejo de datos en Post
 
 ---
 
-### VERSION 1.1.3
+### VERSION 1.1.4
 ```
