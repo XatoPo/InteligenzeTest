@@ -1,4 +1,3 @@
-```markdown
 # InteligenzeTest
 
 ## Descripción del Proyecto
