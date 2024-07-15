@@ -27,7 +27,7 @@ export async function fetchData() {
         // Combina los datos de imágenes EPIC de los últimos tres meses, dos meses y un mes en un solo arreglo.
         const epicImagesData = [...epicImagesDataThreeMonths, ...epicImagesDataTwoMonths, ...epicImagesDataOneMonth];
 
-        // Devuelve un objeto con los datos filtrados, asegurándose de que cada propiedad sea un arreglo vacío si no hay datos.
+        // Devuelve un objeto con los datos filtrados, asegurándose de que cada propiedad sea un arreglo vacío si no hay datos (pequeña validación para asegurar la inserción).
         return {
             filteredAsteroids: asteroidsData || [],
             filteredMarsPhotos: marsPhotosData || [],

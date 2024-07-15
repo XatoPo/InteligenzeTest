@@ -13,7 +13,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const port = process.env.PORT || 4052; // Cambiado a 4052 para evitar conflictos
+const port = process.env.PORT || 4052; // Cambiado a 4052 para evitar conflictos :'(
 
 // Middleware para parsear JSON
 app.use(express.json());
@@ -21,7 +21,7 @@ app.use(express.json());
 // Ruta para servir archivos estáticos
 app.use(express.static('public'));
 
-// Ruta para la página de documentación
+// Ruta para la página de documentación (Lo que se visualizara desde el localhost o en este caso para el ngrok)
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
@@ -89,7 +89,7 @@ app.post('/insert-data', async (req, res) => {
 });
 
 /*
-Insertar datos en PowerShell:
+Insertar datos desde PowerShell para mi db usando NGROK:
 Invoke-WebRequest -Uri "https://8337-38-25-16-177.ngrok-free.app/insert-data" -Method Post -ContentType "application/json"
 */
 

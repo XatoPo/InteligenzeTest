@@ -3,7 +3,7 @@ import pkg from 'pg';
 // Extrae la clase 'Client' del paquete 'pg'.
 const { Client } = pkg;
 
-// Importa el paquete 'dotenv' para cargar variables de entorno desde un archivo .env.
+// Importa el paquete 'dotenv' para cargar variables de entorno desde mi archivo .env.
 import dotenv from 'dotenv';
 
 // Configura dotenv para cargar las variables de entorno.

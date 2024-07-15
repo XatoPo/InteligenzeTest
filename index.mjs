@@ -1,6 +1,6 @@
 // Importa la función 'connectDb' desde el archivo 'db.mjs' para conectar con la base de datos.
 import { connectDb } from './db.mjs';
-// Importa el paquete 'dotenv' para cargar variables de entorno desde un archivo .env.
+// Importa el paquete 'dotenv' para cargar variables de entorno desde mi archivo .env.
 import dotenv from 'dotenv';
 // Importa la función 'fetchData' desde el archivo 'fetchData.mjs' para obtener datos de diferentes fuentes.
 import { fetchData } from './fetchData.mjs';
