@@ -179,7 +179,6 @@ $$ LANGUAGE PLPGSQL;
 
 -- Consultas a manera de reportes
 -- Reporte de asteroides potencialmente peligrosos
--- Reporte de asteroides potencialmente peligrosos
 CREATE OR REPLACE VIEW NASA.HAZARDOUS_ASTEROIDS AS
 SELECT
     ID,
@@ -195,7 +194,6 @@ WHERE
 -- Crea una vista llamada HAZARDOUS_ASTEROIDS que selecciona y muestra datos de la tabla ASTEROIDS donde los asteroides son potencialmente peligrosos.
 
 -- Reporte de fotos del rover en Marte con el estado del rover y datos meteorológicos
--- Reporte de fotos del rover en Marte con el estado del rover
 CREATE OR REPLACE VIEW NASA.MARS_ROVER_PHOTOS_WITH_STATUS AS
 SELECT
     ID,
