@@ -9,6 +9,7 @@ CREATE DATABASE NASA_INTELIGENZE;
 
 -- Crear el esquema para mantener la organización
 CREATE SCHEMA IF NOT EXISTS NASA;
+-- Crea un esquema llamado NASA si no existe, para organizar las tablas y otros objetos de la base de datos.
 
 -- Tabla de Asteroides
 CREATE TABLE NASA.ASTEROIDS (
@@ -20,6 +21,7 @@ CREATE TABLE NASA.ASTEROIDS (
     DISTANCE_KM REAL,
     NASA_JPL_URL TEXT
 );
+-- Crea una tabla llamada ASTEROIDS dentro del esquema NASA con varias columnas para almacenar información sobre asteroides.
 
 -- Tabla de Fotos del Rover en Marte
 CREATE TABLE NASA.MARSROVERPHOTOS (
@@ -31,6 +33,7 @@ CREATE TABLE NASA.MARSROVERPHOTOS (
     ROVER_NAME VARCHAR(255),
     ROVER_STATUS VARCHAR(50)
 );
+-- Crea una tabla llamada MARSROVERPHOTOS dentro del esquema NASA para almacenar fotos tomadas por el rover en Marte.
 
 -- Tabla de Astronomía Diaria
 CREATE TABLE NASA.DAILYASTRONOMY (
@@ -40,8 +43,9 @@ CREATE TABLE NASA.DAILYASTRONOMY (
     EXPLANATION TEXT,
     URL TEXT
 );
+-- Crea una tabla llamada DAILYASTRONOMY dentro del esquema NASA para almacenar información diaria de astronomía.
 
--- Tabla de imagenes EPIC
+-- Tabla de imágenes EPIC
 CREATE TABLE NASA.EPIC_IMAGES (
     ID SERIAL PRIMARY KEY,
     IMAGE_DATE DATE NOT NULL,
@@ -52,7 +56,7 @@ CREATE TABLE NASA.EPIC_IMAGES (
     DSV_DISTANCE REAL,
     SUN_DISTANCE REAL
 );
-
+-- Crea una tabla llamada EPIC_IMAGES dentro del esquema NASA para almacenar imágenes EPIC junto con sus datos asociados.
 
 -- Funciones para insertar y seleccionar datos
 
@@ -65,7 +69,9 @@ CREATE OR REPLACE FUNCTION NASA.INSERT_ASTEROID(
     _DISTANCE_KM REAL,
     _NASA_JPL_URL TEXT
 ) RETURNS VOID AS
-    $$     BEGIN INSERT INTO NASA.ASTEROIDS (
+$$
+BEGIN
+    INSERT INTO NASA.ASTEROIDS (
         NAME,
         MAGNITUDE,
         IS_POTENTIALLY_HAZARDOUS,
@@ -81,12 +87,11 @@ CREATE OR REPLACE FUNCTION NASA.INSERT_ASTEROID(
         _NASA_JPL_URL
     );
 END;
-$$     LANGUAGE PLPGSQL;
+$$ LANGUAGE PLPGSQL;
+-- Define una función llamada INSERT_ASTEROID que inserta datos en la tabla ASTEROIDS utilizando los parámetros proporcionados.
 
 -- Función para insertar datos en la tabla de Fotos del Rover en Marte
-CREATE OR REPLACE
-
-FUNCTION NASA.INSERT_MARS_ROVER_PHOTO(
+CREATE OR REPLACE FUNCTION NASA.INSERT_MARS_ROVER_PHOTO(
     _SOL INT,
     _CAMERA_NAME VARCHAR,
     _IMG_SRC TEXT,
@@ -94,7 +99,9 @@ FUNCTION NASA.INSERT_MARS_ROVER_PHOTO(
     _ROVER_NAME VARCHAR,
     _ROVER_STATUS VARCHAR
 ) RETURNS VOID AS
-    $$     BEGIN INSERT INTO NASA.MARSROVERPHOTOS (
+$$
+BEGIN
+    INSERT INTO NASA.MARSROVERPHOTOS (
         SOL,
         CAMERA_NAME,
         IMG_SRC,
@@ -110,7 +117,8 @@ FUNCTION NASA.INSERT_MARS_ROVER_PHOTO(
         _ROVER_STATUS
     );
 END;
-$$     LANGUAGE PLPGSQL;
+$$ LANGUAGE PLPGSQL;
+-- Define una función llamada INSERT_MARS_ROVER_PHOTO que inserta datos en la tabla MARSROVERPHOTOS utilizando los parámetros proporcionados.
 
 -- Función para insertar datos en la tabla de EPIC
 CREATE OR REPLACE FUNCTION NASA.INSERT_EPIC_IMAGE(
@@ -143,17 +151,18 @@ BEGIN
     );
 END;
 $$ LANGUAGE PLPGSQL;
+-- Define una función llamada INSERT_EPIC_IMAGE que inserta datos en la tabla EPIC_IMAGES utilizando los parámetros proporcionados.
 
 -- Función para insertar datos en la tabla de Astronomía Diaria
-CREATE OR REPLACE
-
-FUNCTION NASA.INSERT_DAILY_ASTRONOMY(
+CREATE OR REPLACE FUNCTION NASA.INSERT_DAILY_ASTRONOMY(
     _DATE DATE,
     _TITLE VARCHAR,
     _EXPLANATION TEXT,
     _URL TEXT
 ) RETURNS VOID AS
-    $$     BEGIN INSERT INTO NASA.DAILYASTRONOMY (
+$$
+BEGIN
+    INSERT INTO NASA.DAILYASTRONOMY (
         DATE,
         TITLE,
         EXPLANATION,
@@ -165,7 +174,8 @@ FUNCTION NASA.INSERT_DAILY_ASTRONOMY(
         _URL
     );
 END;
-$$     LANGUAGE PLPGSQL;
+$$ LANGUAGE PLPGSQL;
+-- Define una función llamada INSERT_DAILY_ASTRONOMY que inserta datos en la tabla DAILYASTRONOMY utilizando los parámetros proporcionados.
 
 -- Consultas a manera de reportes
 -- Reporte de asteroides potencialmente peligrosos
@@ -181,6 +191,7 @@ FROM
     NASA.ASTEROIDS
 WHERE
     IS_POTENTIALLY_HAZARDOUS = TRUE;
+-- Crea una vista llamada HAZARDOUS_ASTEROIDS que selecciona y muestra datos de la tabla ASTEROIDS donde los asteroides son potencialmente peligrosos.
 
 -- Reporte de fotos del rover en Marte con el estado del rover y datos meteorológicos
 CREATE OR REPLACE VIEW NASA.MARS_ROVER_PHOTOS_WITH_STATUS AS
@@ -194,6 +205,7 @@ SELECT
     M.ROVER_STATUS
 FROM
     NASA.MARSROVERPHOTOS M;
+-- Crea una vista llamada MARS_ROVER_PHOTOS_WITH_STATUS que selecciona y muestra datos de la tabla MARSROVERPHOTOS.
 
 -- Reporte de entradas diarias de astronomía
 CREATE OR REPLACE VIEW NASA.DAILY_ASTRONOMY_ENTRIES AS
@@ -205,3 +217,4 @@ SELECT
     URL
 FROM
     NASA.DAILYASTRONOMY;
+-- Crea una vista llamada DAILY_ASTRONOMY_ENTRIES que selecciona y muestra datos de la tabla DAILYASTRONOMY.

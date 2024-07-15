@@ -26,7 +26,7 @@ Se utilizaron las siguientes APIs de la NASA:
 1. **Astronomy Picture of the Day (APOD)**: Para obtener imágenes diarias del espacio.
 2. **Mars Rover Photos**: Para obtener fotos tomadas por los rovers en Marte.
 3. **NeoWs (Near Earth Object Web Service)**: Para obtener información sobre asteroides cercanos a la Tierra.
-4. **NASA Image and Video Library**: Para buscar y obtener imágenes y videos de diversas misiones de la NASA.
+4. **NASA EPIC (Earth Polychromatic Imaging Camera)**: Para obtener imágenes EPIC de la NASA.
 
 ### Base de Datos: PostgreSQL
 
@@ -34,7 +34,7 @@ Se diseñaron tablas para almacenar los datos obtenidos de las APIs. Las tablas 
 - **Imágenes del Día**: Almacena la información y los links a las imágenes obtenidas de la API APOD.
 - **Fotos de Rovers**: Almacena la información y las fotos obtenidas de la API Mars Rover Photos.
 - **Objetos Cercanos a la Tierra**: Almacena la información obtenida de la API NeoWs sobre asteroides.
-- **Biblioteca de Imágenes y Videos**: Almacena los enlaces y detalles de las imágenes y videos obtenidos de la NASA Image and Video Library.
+- **Imágenes EPIC**: Almacena los detalles de las imágenes EPIC obtenidas de la API EPIC.
 
 ### Consumo Asíncrono de APIs
 
@@ -58,8 +58,7 @@ Se siguieron las mejores prácticas recomendadas para el manejo de datos en Post
 - **Backend**: Implementado en Node.js, consumiendo las APIs de la NASA de forma asíncrona y almacenando los datos en PostgreSQL.
 - **Base de Datos**: PostgreSQL, con tablas diseñadas siguiendo las mejores prácticas.
 - **Despliegue**: Utilización de Ngrok para el despliegue y acceso remoto durante el desarrollo.
-- **Utilice pnpm** para la gestión de paquetes.
-
+- **Gestión de Paquetes**: Utilización de `pnpm` para la gestión de paquetes.
 ### Configuración del Proyecto
 
 1. Clona el repositorio:
@@ -69,14 +68,24 @@ Se siguieron las mejores prácticas recomendadas para el manejo de datos en Post
 
 2. Instala las dependencias:
    ```bash
-   pnpm install
+   pnpm install node-fetch dotenv dayjs
    ```
+
+   Paquetes Requeridos
+      - **node-fetch**: Para realizar solicitudes HTTP.
+      - **dotenv**: Para manejar variables de entorno.
+      - **dayjs**: Para el manejo de fechas.
 
 3. Crea un archivo `.env` en el directorio raíz del proyecto y añade tu cadena de conexión:
    ```plaintext
    DATABASE_URL=postgres://usuario:contraseña@localhost:5432/nombre_de_la_base_de_dato
    La mía fue: 
    DATABASE_URL=postgres://postgres:developer22@localhost:5432/NASA_Inteligenze
+   NASA_API_KEY=1tXim3cXjoSnPvB7b8VSst8zAeolGBphwxOajPs0
+   PGHOST=localhost
+   PGUSER=postgres
+   PGPASSWORD=developer22
+   PGDATABASE=NASA_Inteligenze
    ```
 
 4. Ejecuta la aplicación:
@@ -97,7 +106,7 @@ Se siguieron las mejores prácticas recomendadas para el manejo de datos en Post
   - [APOD](https://api.nasa.gov/planetary/apod)
   - [Mars Rover Photos](https://api.nasa.gov/mars-photos/api/v1)
   - [NeoWs](https://api.nasa.gov/planetary/neo/rest/v1/feed)
-  - [NASA Image and Video Library](https://images.nasa.gov/)
+  - [NASA EPIC](https://api.nasa.gov/EPIC/api/natural)
 
 ---
 
@@ -107,4 +116,4 @@ Se siguieron las mejores prácticas recomendadas para el manejo de datos en Post
 
 ---
 
-### VERSION 1.0.0
+### VERSION 1.0.8
