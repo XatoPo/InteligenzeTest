@@ -103,10 +103,10 @@ Se siguieron las mejores prácticas recomendadas para el manejo de datos en Post
 - [PostgreSQL](https://www.postgresql.org/)
 - [Ngrok](https://ngrok.com/)
 - [NASA APIs](https://api.nasa.gov/)
-  - [APOD](https://api.nasa.gov/planetary/apod&api_key=DEMO_KEY)
-  - [Mars Rover Photos](https://api.nasa.gov/mars-photos/api/v1&api_key=DEMO_KEY)
-  - [NeoWs](https://api.nasa.gov/planetary/neo/rest/v1/feed&api_key=DEMO_KEY)
-  - [NASA EPIC](https://api.nasa.gov/EPIC/api/natural&api_key=DEMO_KEY)
+  - [APOD](https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY)
+  - [Mars Rover Photos](https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=DEMO_KEY)
+  - [Asteroids - NeoWs](https://api.nasa.gov/neo/rest/v1/feed?start_date=2015-09-07&end_date=2015-09-08&api_key=DEMO_KEY)
+  - [EPIC](https://api.nasa.gov/EPIC/api/natural/date/2019-05-30?api_key=DEMO_KEY)
 
 ---
 
