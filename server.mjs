@@ -64,9 +64,9 @@ app.get('/epic-images', async (req, res) => {
 app.post('/insert-data', async (req, res) => {
     try {
         const client = await connectDb();
-
         const { filteredAsteroids, filteredMarsPhotos, dailyAstronomyData, epicImagesData } = await fetchData();
 
+        // Insertar datos en la base de datos
         await insertEpicImages(client, epicImagesData);
         await insertAsteroids(client, filteredAsteroids);
         await insertMarsRoverPhotos(client, filteredMarsPhotos);
@@ -75,11 +75,35 @@ app.post('/insert-data', async (req, res) => {
         await client.end();
         res.status(200).json({ message: 'Datos insertados correctamente' });
     } catch (error) {
+        console.error('Error al insertar datos:', error);
         res.status(500).json({ error: 'Error al insertar datos en la base de datos' });
     }
 });
 
+app.listen(port, () => {
+    console.log(`Servidor corriendo en el puerto ${port}`);
+});
+
+/* 
+// Endpoint para insertar datos en la base de datos desde un terminal como PowerShell
+Invoke-WebRequest -Uri "https://ef8c-38-25-16-177.ngrok-free.app/insert-data" -Method Post -ContentType "application/json" 
+*/
+
 /*-----------------------------------------------------------CONSUMO DIRECTO DESDE BD----------------------------------------*/
+// Ruta para obtener todos los asteroides
+app.get('/db/all-asteroids', async (req, res) => {
+    const client = await connectDb();
+    try {
+        const query = 'SELECT * FROM NASA.ALL_ASTEROIDS'; // Consulta para todos los asteroides
+        const result = await client.query(query);
+        res.json(result.rows);
+    } catch (error) {
+        handleDbError(res, error, 'Error al consultar todos los asteroides');
+    } finally {
+        client.end();
+    }
+});
+
 // Ruta para obtener asteroides potencialmente peligrosos
 app.get('/db/hazardous-asteroids', async (req, res) => {
     const client = await connectDb();

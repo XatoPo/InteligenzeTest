@@ -9,6 +9,7 @@ CREATE DATABASE NASA_INTELIGENZE;
 
 -- Crear el esquema para mantener la organización
 CREATE SCHEMA IF NOT EXISTS NASA;
+
 -- Crea un esquema llamado NASA si no existe, para organizar las tablas y otros objetos de la base de datos.
 
 -- Tabla de Asteroides
@@ -21,6 +22,7 @@ CREATE TABLE NASA.ASTEROIDS (
     DISTANCE_KM REAL,
     NASA_JPL_URL TEXT
 );
+
 -- Crea una tabla llamada ASTEROIDS dentro del esquema NASA con varias columnas para almacenar información sobre asteroides.
 
 -- Tabla de Fotos del Rover en Marte
@@ -33,6 +35,7 @@ CREATE TABLE NASA.MARSROVERPHOTOS (
     ROVER_NAME VARCHAR(255),
     ROVER_STATUS VARCHAR(50)
 );
+
 -- Crea una tabla llamada MARSROVERPHOTOS dentro del esquema NASA para almacenar fotos tomadas por el rover en Marte.
 
 -- Tabla de Astronomía Diaria
@@ -43,6 +46,7 @@ CREATE TABLE NASA.DAILYASTRONOMY (
     EXPLANATION TEXT,
     URL TEXT
 );
+
 -- Crea una tabla llamada DAILYASTRONOMY dentro del esquema NASA para almacenar información diaria de astronomía.
 
 -- Tabla de imágenes EPIC
@@ -56,6 +60,7 @@ CREATE TABLE NASA.EPIC_IMAGES (
     DSV_DISTANCE REAL,
     SUN_DISTANCE REAL
 );
+
 -- Crea una tabla llamada EPIC_IMAGES dentro del esquema NASA para almacenar imágenes EPIC junto con sus datos asociados.
 
 -- Funciones para insertar y seleccionar datos
@@ -178,6 +183,20 @@ $$ LANGUAGE PLPGSQL;
 -- Define una función llamada INSERT_DAILY_ASTRONOMY que inserta datos en la tabla DAILYASTRONOMY utilizando los parámetros proporcionados.
 
 -- Consultas a manera de reportes
+-- Reporte de todos los asteroides
+CREATE OR REPLACE VIEW NASA.ALL_ASTEROIDS AS
+SELECT
+    ID,
+    NAME,
+    MAGNITUDE,
+    IS_POTENTIALLY_HAZARDOUS,
+    CLOSE_APPROACH_DATE,
+    DISTANCE_KM,
+    NASA_JPL_URL
+FROM
+    NASA.ASTEROIDS;
+-- Crea una vista llamada ALL_ASTEROIDS que selecciona y muestra datos de la tabla ASTEROIDS.
+
 -- Reporte de asteroides potencialmente peligrosos
 CREATE OR REPLACE VIEW NASA.HAZARDOUS_ASTEROIDS AS
 SELECT
