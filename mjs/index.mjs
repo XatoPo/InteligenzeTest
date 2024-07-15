@@ -3,18 +3,20 @@ import dotenv from 'dotenv';
 import { fetchData } from './fetchData.mjs';
 import { insertAsteroids, insertMarsRoverPhotos, insertDailyAstronomy, insertEpicImages } from './insertData.mjs';
 
+dotenv.config();
+
 async function main() {
     try {
-        dotenv.config();
         const client = await connectDb();
 
         const {
             filteredAsteroids,
             filteredMarsPhotos,
-            dailyAstronomyData
+            dailyAstronomyData,
+            epicImagesData
         } = await fetchData();
 
-        await insertEpicImages(client);
+        await insertEpicImages(client, epicImagesData);
         await insertAsteroids(client, filteredAsteroids);
         await insertMarsRoverPhotos(client, filteredMarsPhotos);
         await insertDailyAstronomy(client, dailyAstronomyData);
