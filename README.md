@@ -90,7 +90,7 @@ Se siguieron las mejores prácticas recomendadas para el manejo de datos en Post
 
 4. Ejecuta la aplicación:
    ```bash
-   pnpm start
+   node index.mjs
    ```
 
 ---
