@@ -31,7 +31,17 @@ export async function fetchDailyAstronomy() {
 
 // Función para obtener datos de imágenes EPIC por fecha específica
 export async function fetchEpicImagesByDate(date) {
-    const response = await fetch(`${API_URL}/EPIC/api/natural/date/${date}?api_key=${process.env.NASA_API_KEY}`);
-    const data = await response.json();
-    return data;
+    try {
+        const response = await fetch(`${API_URL}/EPIC/api/natural/date/${date}?api_key=${process.env.NASA_API_KEY}`);
+
+        if (!response.ok) {
+            throw new Error(`Error en la solicitud: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error(`Error al obtener imágenes EPIC para la fecha ${date}:`, error.message);
+        throw error;
+    }
 }
