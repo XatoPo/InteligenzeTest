@@ -1,22 +1,30 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { connectDb } from './db.mjs';
 import { fetchData } from './fetchData.mjs';
 import { insertAsteroids, insertMarsRoverPhotos, insertDailyAstronomy, insertEpicImages } from './insertData.mjs';
 
 dotenv.config();
 
+// Necesario para obtener __dirname con ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
-const port = process.env.PORT || 3056;
+const port = process.env.PORT || 4052; // Cambiado a 4052 para evitar conflictos
 
 // Middleware para parsear JSON
 app.use(express.json());
 
-// Función para manejar errores de base de datos
-function handleDbError(res, error, message) {
-    console.error(`${message}: ${error.message}`);
-    res.status(500).json({ error: message });
-}
+// Ruta para servir archivos estáticos
+app.use(express.static('public'));
+
+// Ruta para la página de documentación
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 /*-----------------------------------------------------------CONSUMO DIRECTO DESDE API----------------------------------------*/
 // Endpoint para obtener imágenes del día
@@ -80,13 +88,9 @@ app.post('/insert-data', async (req, res) => {
     }
 });
 
-app.listen(port, () => {
-    console.log(`Servidor corriendo en el puerto ${port}`);
-});
-
-/* 
-// Endpoint para insertar datos en la base de datos desde un terminal como PowerShell
-Invoke-WebRequest -Uri "https://ef8c-38-25-16-177.ngrok-free.app/insert-data" -Method Post -ContentType "application/json" 
+/*
+Insertar datos en PowerShell:
+Invoke-WebRequest -Uri "https://8337-38-25-16-177.ngrok-free.app/insert-data" -Method Post -ContentType "application/json"
 */
 
 /*-----------------------------------------------------------CONSUMO DIRECTO DESDE BD----------------------------------------*/
@@ -160,7 +164,17 @@ app.get('/db/epic-images', async (req, res) => {
     }
 });
 
+// Manejador de errores para el servidor
+app.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+        console.error(`El puerto ${port} ya está en uso. Por favor, usa otro puerto.`);
+        process.exit(1);
+    } else {
+        console.error(`Error en el servidor: ${err}`);
+    }
+});
+
 // Inicia el servidor
 app.listen(port, () => {
-    console.log(`Servidor corriendo en el puerto ${port}`);
+    console.log(`Servidor corriendo en http://localhost:${port}`);
 });

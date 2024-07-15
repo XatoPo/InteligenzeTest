@@ -1,3 +1,4 @@
+```markdown
 # InteligenzeTest
 
 ## Descripción del Proyecto
@@ -11,11 +12,10 @@ Este proyecto es un test para **Inteligenze**, donde se ha elegido trabajar con 
 - **Objetivos**:
   - Priorizar la data.
   - Incluir links a imágenes.
-  - Mínimo una tabla debe ser el cruce de dos consultas.
+  - Mínimo una consulta debe ser el cruce de dos tablas.
 - **Buenas Prácticas**: 
   - Seguir las recomendaciones para PostgreSQL.
   - Seguir buenas prácticas de la última documentación de Node.js.
-
 ---
 
 ## Detalles del Proyecto
@@ -59,6 +59,7 @@ Se siguieron las mejores prácticas recomendadas para el manejo de datos en Post
 - **Base de Datos**: PostgreSQL, con tablas diseñadas siguiendo las mejores prácticas.
 - **Despliegue**: Utilización de Ngrok para el despliegue y acceso remoto durante el desarrollo.
 - **Gestión de Paquetes**: Utilización de `pnpm` para la gestión de paquetes.
+
 ### Configuración del Proyecto
 
 1. Clona el repositorio:
@@ -68,13 +69,16 @@ Se siguieron las mejores prácticas recomendadas para el manejo de datos en Post
 
 2. Instala las dependencias:
    ```bash
-   pnpm install node-fetch dotenv dayjs
+   pnpm install express dotenv path pg node-fetch dayjs
    ```
 
-   Paquetes Requeridos
-      - **node-fetch**: Para realizar solicitudes HTTP.
-      - **dotenv**: Para manejar variables de entorno.
-      - **dayjs**: Para el manejo de fechas.
+   Paquetes Requeridos:
+   - **express**: Para manejar las rutas y peticiones HTTP.
+   - **dotenv**: Para manejar variables de entorno.
+   - **path**: Para trabajar con rutas de archivos.
+   - **pg**: Para manejar la conexión a PostgreSQL.
+   - **node-fetch**: Para realizar solicitudes HTTP.
+   - **dayjs**: Para el manejo de fechas.
 
 3. Crea un archivo `.env` en el directorio raíz del proyecto y añade tu cadena de conexión:
    ```plaintext
@@ -86,12 +90,192 @@ Se siguieron las mejores prácticas recomendadas para el manejo de datos en Post
    PGUSER=postgres
    PGPASSWORD=developer22
    PGDATABASE=NASA_Inteligenze
+   PORT=4052
    ```
 
 4. Ejecuta la aplicación:
    ```bash
-   node index.mjs
+   node server.mjs
    ```
+
+---
+
+### Documentación de la API
+
+#### 1. Insertar Datos
+
+- **Descripción**: Inserta datos en la base de datos.
+- **URL**: `/insert-data`
+- **Método**: `POST`
+- **Headers**:
+  ```plaintext
+  Content-Type: application/json
+  ```
+- **Ejemplo de Cuerpo**:
+  ```json
+  {
+      "filteredAsteroids": [/* Datos de asteroides */],
+      "filteredMarsPhotos": [/* Datos de fotos del rover */],
+      "dailyAstronomyData": [/* Datos de astronomía diaria */],
+      "epicImagesData": [/* Datos de imágenes EPIC */]
+  }
+  ```
+
+#### 2. Obtener Imágenes del Día (APOD)
+
+- **Descripción**: Obtiene imágenes del día de la API APOD.
+- **URL**: `/apod`
+- **Método**: `GET`
+- **Respuesta**:
+  ```json
+  {
+      "date": "2024-07-15",
+      "explanation": "Descripción de la imagen",
+      "url": "https://example.com/image.jpg"
+  }
+  ```
+
+#### 3. Obtener Fotos de Rovers en Marte
+
+- **Descripción**: Obtiene fotos tomadas por los rovers en Marte.
+- **URL**: `/mars-rover-photos`
+- **Método**: `GET`
+- **Respuesta**:
+  ```json
+  {
+      "photos": [
+          {
+              "id": 1,
+              "sol": 1000,
+              "camera": "FHAZ",
+              "img_src": "https://example.com/photo.jpg"
+          }
+      ]
+  }
+  ```
+
+#### 4. Obtener Datos de Asteroides
+
+- **Descripción**: Obtiene información sobre asteroides cercanos a la Tierra.
+- **URL**: `/asteroids`
+- **Método**: `GET`
+- **Respuesta**:
+  ```json
+  {
+      "asteroids": [
+          {
+              "id": "12345",
+              "name": "Asteroide 1",
+              "diameter": 5.5,
+              "distance_from_earth": 1000000
+          }
+      ]
+  }
+  ```
+
+#### 5. Obtener Imágenes EPIC
+
+- **Descripción**: Obtiene imágenes EPIC de la NASA.
+- **URL**: `/epic-images`
+- **Método**: `GET`
+- **Respuesta**:
+  ```json
+  {
+      "epic_images": [
+          {
+              "date": "2024-07-15",
+              "image_url": "https://example.com/epic_image.jpg"
+          }
+      ]
+  }
+  ```
+
+#### 6. Obtener Todos los Asteroides Desde la Base de Datos
+
+- **Descripción**: Obtiene todos los asteroides almacenados en la base de datos.
+- **URL**: `/db/all-asteroids`
+- **Método**: `GET`
+- **Respuesta**:
+  ```json
+  [
+      {
+          "id": "12345",
+          "name": "Asteroide 1",
+          "diameter": 5.5,
+          "distance_from_earth": 1000000
+      }
+  ]
+  ```
+
+#### 7. Obtener Asteroides Potencialmente Peligrosos
+
+- **Descripción**: Obtiene asteroides peligrosos almacenados en la base de datos.
+- **URL**: `/db/hazardous-asteroids`
+- **Método**: `GET`
+- **Respuesta**:
+  ```json
+  [
+      {
+          "id": "12345",
+          "name": "Asteroide Peligroso",
+          "diameter": 5.5,
+          "distance_from_earth": 500000
+      }
+  ]
+  ```
+
+#### 8. Obtener Fotos de Rovers con Estado
+
+- **Descripción**: Obtiene fotos de rovers en Marte junto con el estado del rover.
+- **URL**: `/db/mars-rover-photos`
+- **Método**: `GET`
+- **Respuesta**:
+  ```json
+  [
+      {
+          "id": 1,
+          "sol": 1000,
+          "camera": "FHAZ",
+          "img_src": "https://example.com/photo.jpg",
+          "rover_status": "active"
+      }
+  ]
+  ```
+
+#### 9. Obtener Entradas Diarias de Astronomía
+
+- **Descripción**: Obtiene entradas diarias de astronomía almacenadas en la base de datos.
+- **URL**: `/db/daily-astronomy`
+- **Método**: `GET`
+- **Respuesta**:
+  ```json
+  [
+      {
+          "date": "2024-07-15",
+          "title": "Imagen del Día",
+          "description": "Descripción de la imagen",
+
+
+          "url": "https://example.com/image.jpg"
+      }
+  ]
+  ```
+
+#### 10. Obtener Imágenes EPIC con Detalles
+
+- **Descripción**: Obtiene imágenes EPIC de la base de datos con detalles asociados.
+- **URL**: `/db/epic-images`
+- **Método**: `GET`
+- **Respuesta**:
+  ```json
+  [
+      {
+          "date": "2024-07-15",
+          "image_url": "https://example.com/epic_image.jpg",
+          "description": "Descripción de la imagen EPIC"
+      }
+  ]
+  ```
 
 ---
 
@@ -116,4 +300,5 @@ Se siguieron las mejores prácticas recomendadas para el manejo de datos en Post
 
 ---
 
-### VERSION 1.0.8
+### VERSION 1.1.3
+```

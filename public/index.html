@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación API - Villanueva</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+
+        .endpoint {
+            margin-bottom: 20px;
+        }
+
+        code {
+            background-color: #f4f4f4;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Documentación de la API</h1>
+
+    <div class="endpoint">
+        <h2>1. Insertar Datos</h2>
+        <p><strong>Descripción:</strong> Inserta datos en la base de datos. Este endpoint obtiene datos de diversas
+            fuentes y los inserta en la base de datos.</p>
+        <p><strong>URL:</strong> <code>/insert-data</code></p>
+        <p><strong>Método:</strong> <code>POST</code></p>
+        <p><strong>Headers:</strong></p>
+        <pre><code>Content-Type: application/json</code></pre>
+        <p><strong>Ejemplo de Cuerpo:</strong></p>
+        <pre>
+            <code>{
+    "filteredAsteroids": [/* Datos de asteroides */],
+    "filteredMarsPhotos": [/* Datos de fotos del rover */],
+    "dailyAstronomyData": [/* Datos de astronomía diaria */],
+    "epicImagesData": [/* Datos de imágenes EPIC */]
+}</code>
+        </pre>
+        <p><strong>Respuesta:</strong></p>
+        <pre><code>{
+    "message": "Datos insertados correctamente"
+}</code></pre>
+    </div>
+
+    <div class="endpoint">
+        <h2>2. Obtener Imágenes del Día (APOD)</h2>
+        <p><strong>Descripción:</strong> Obtiene datos de la Imagen Astronómica del Día (APOD) desde una API externa.
+        </p>
+        <p><strong>URL:</strong> <code>/apod</code></p>
+        <p><strong>Método:</strong> <code>GET</code></p>
+        <p><strong>Respuesta:</strong></p>
+        <pre><code>{
+    "date": "2024-07-15",
+    "explanation": "Descripción de la imagen.",
+    "url": "https://example.com/image.jpg"
+}</code></pre>
+    </div>
+
+    <div class="endpoint">
+        <h2>3. Obtener Fotos de Rovers en Marte</h2>
+        <p><strong>Descripción:</strong> Obtiene fotos tomadas por los rovers en Marte desde una API externa.</p>
+        <p><strong>URL:</strong> <code>/mars-rover-photos</code></p>
+        <p><strong>Método:</strong> <code>GET</code></p>
+        <p><strong>Respuesta:</strong></p>
+        <pre><code>[
+    {
+        "id": 1,
+        "earth_date": "2024-07-14",
+        "camera": "FHAZ",
+        "img_src": "https://example.com/rover.jpg"
+    },
+    ...
+]</code></pre>
+    </div>
+
+    <div class="endpoint">
+        <h2>4. Obtener Datos de Asteroides</h2>
+        <p><strong>Descripción:</strong> Obtiene datos sobre asteroides desde una API externa.</p>
+        <p><strong>URL:</strong> <code>/asteroids</code></p>
+        <p><strong>Método:</strong> <code>GET</code></p>
+        <p><strong>Respuesta:</strong></p>
+        <pre><code>[
+    {
+        "id": 1,
+        "name": "Asteroide 1",
+        "diameter": 1.23,
+        "hazardous": false
+    },
+    ...
+]</code></pre>
+    </div>
+
+    <div class="endpoint">
+        <h2>5. Obtener Imágenes EPIC</h2>
+        <p><strong>Descripción:</strong> Obtiene imágenes EPIC de la NASA desde una API externa.</p>
+        <p><strong>URL:</strong> <code>/epic-images</code></p>
+        <p><strong>Método:</strong> <code>GET</code></p>
+        <p><strong>Respuesta:</strong></p>
+        <pre><code>[
+    {
+        "date": "2024-07-15",
+        "image_url": "https://example.com/epic.jpg"
+    },
+    ...
+]</code></pre>
+    </div>
+
+    <div class="endpoint">
+        <h2>6. Obtener Todos los Asteroides desde la BD</h2>
+        <p><strong>Descripción:</strong> Obtiene todos los asteroides almacenados en la base de datos.</p>
+        <p><strong>URL:</strong> <code>/db/all-asteroids</code></p>
+        <p><strong>Método:</strong> <code>GET</code></p>
+        <p><strong>Respuesta:</strong></p>
+        <pre><code>[
+    {
+        "id": 1,
+        "name": "Asteroide 1",
+        "diameter": 1.23,
+        "hazardous": false
+    },
+    ...
+]</code></pre>
+    </div>
+
+    <div class="endpoint">
+        <h2>7. Obtener Asteroides Potencialmente Peligrosos desde la BD</h2>
+        <p><strong>Descripción:</strong> Obtiene asteroides que son potencialmente peligrosos desde la base de datos.
+        </p>
+        <p><strong>URL:</strong> <code>/db/hazardous-asteroids</code></p>
+        <p><strong>Método:</strong> <code>GET</code></p>
+        <p><strong>Respuesta:</strong></p>
+        <pre><code>[
+    {
+        "id": 1,
+        "name": "Asteroide Peligroso 1",
+        "diameter": 2.34,
+        "hazardous": true
+    },
+    ...
+]</code></pre>
+    </div>
+
+    <div class="endpoint">
+        <h2>8. Obtener Fotos de Rovers en Marte con Estado desde la BD</h2>
+        <p><strong>Descripción:</strong> Obtiene fotos del rover en Marte con el estado del rover desde la base de
+            datos.</p>
+        <p><strong>URL:</strong> <code>/db/mars-rover-photos</code></p>
+        <p><strong>Método:</strong> <code>GET</code></p>
+        <p><strong>Respuesta:</strong></p>
+        <pre><code>[
+    {
+        "id": 1,
+        "earth_date": "2024-07-14",
+        "camera": "FHAZ",
+        "img_src": "https://example.com/rover.jpg",
+        "rover_status": "active"
+    },
+    ...
+]</code></pre>
+    </div>
+
+    <div class="endpoint">
+        <h2>9. Obtener Entradas Diarias de Astronomía desde la BD</h2>
+        <p><strong>Descripción:</strong> Obtiene entradas diarias de astronomía almacenadas en la base de datos.</p>
+        <p><strong>URL:</strong> <code>/db/daily-astronomy</code></p>
+        <p><strong>Método:</strong> <code>GET</code></p>
+        <p><strong>Respuesta:</strong></p>
+        <pre><code>[
+    {
+        "date": "2024-07-15",
+        "description": "Descripción de la entrada diaria de astronomía."
+    },
+    ...
+]</code></pre>
+    </div>
+
+    <div class="endpoint">
+        <h2>10. Obtener Imágenes EPIC con Datos Asociados desde la BD</h2>
+        <p><strong>Descripción:</strong> Obtiene imágenes EPIC con datos asociados desde la base de datos.</p>
+        <p><strong>URL:</strong> <code>/db/epic-images</code></p>
+        <p><strong>Método:</strong> <code>GET</code></p>
+        <p><strong>Respuesta:</strong></p>
+        <pre><code>[
+    {
+        "date": "2024-07-15",
+        "image_url": "https://example.com/epic.jpg",
+        "associated_data": "Datos asociados"
+    },
+    ...
+]</code></pre>
+    </div>
+
+</body>
+
+</html>
